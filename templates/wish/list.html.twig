@@ -3,8 +3,21 @@
 {% block title %}Liste{% endblock %}
 
 {% block body %}
-<div class="row mt-5">
-    <h3>Liste wish</h3>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, magnam repellendus culpa debitis, ipsum alias est hic deserunt veniam eos veritatis sed optio. Atque, vitae. Excepturi iusto consequatur explicabo ab!</p>
+<div class="row mt-5 text-center">
+    <h3>Liste wish</h3>    
 </div>
+
+<div class="row mt-5 justify-content-center"> 
+    <div class="card" style="width: 18rem;">
+        <ul class="list-group list-group-flush">
+            {% for item in wishes %}
+                <li class="list-group-item">  <a href="{{ path('app_wish_detail',{'id':item.id}) }}">{{item.title}} {{ item.dateCreated|date("d-m-Y") }} {{ item.author }}</a> </li>
+                {% else %}
+                <li class="list-group-item">Aucun wish</li>                    
+            {% endfor %}
+        </ul>
+      </div>  
+</div>
+
+
 {% endblock %}
