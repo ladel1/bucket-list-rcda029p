@@ -7,16 +7,39 @@
     <h3>Liste wish</h3>    
 </div>
 
-<div class="row mt-5 justify-content-center"> 
-    <div class="card" style="width: 18rem;">
-        <ul class="list-group list-group-flush">
-            {% for item in wishes %}
-                <li class="list-group-item">  <a href="{{ path('app_wish_detail',{'id':item.id}) }}">{{item.title}} {{ item.dateCreated|date("d-m-Y") }} {{ item.author }}</a> </li>
-                {% else %}
-                <li class="list-group-item">Aucun wish</li>                    
-            {% endfor %}
-        </ul>
-      </div>  
+<div class="row mt-5"> 
+    <div class="col-8 offset-2">
+        {% include "helper/_flash.html.twig" %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>N°</th>
+                    <th>Titre</th>
+                    <th>Résumé</th>
+                    <th>Auteur</th>
+                    <th>Actions</th>                
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in wishes %}
+                    <tr>
+                        <td>{{ item.id}}</td>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.description[0:20] }}...</td>
+                        <td>{{ item.author }}</td>
+                        <td>
+                            <a href="{{ path('app_wish_detail',{id:item.id}) }}" class="btn btn-info"><i class="fa-solid fa-eye"></i></a>
+                            <a href="{{ path('app_wish_edit',{id:item.id}) }}" class="btn btn-success"><i class="fa-solid fa-pen-to-square"></i></a>
+                            {% include ("helper/_delete.html.twig") with { "id":item.id,"route":"app_wish_delete" } %}
+                        </td>
+                    </tr>
+                {% endfor %} 
+            </tbody>
+        </table>
+    </div>
+
+
+ 
 </div>
 
 

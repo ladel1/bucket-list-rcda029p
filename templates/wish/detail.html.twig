@@ -4,6 +4,7 @@
 
 {% block body %}
 <div class="row mt-5">
+    {% include "helper/_flash.html.twig" %}
     <h2>{{wish.title}}</h2>
     <p>{{wish.description}}</p>
     <p>{{wish.dateCreated|date("d/m/Y h\\Hi ") }}</p>

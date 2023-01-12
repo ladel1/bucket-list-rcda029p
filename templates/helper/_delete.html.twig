@@ -1,0 +1,5 @@
+<form class="d-inline" action="{{ path(route) }}" method="post" onsubmit="return confirm('Voulez-vous supprimer le wish avec id {{id}} ?')">
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token("supp-"~id) }}">
+    <input type="hidden" name="_id" value="{{ id }}">
+    <button class="btn btn-danger" type="submit"><i class="fa-solid fa-trash"></i></button>
+</form>

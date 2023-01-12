@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Wish;
+use App\Form\WishType;
 use App\Repository\WishRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -24,14 +26,21 @@ class WishController extends AbstractController
     /**
      * @Route("/ajouter", name="ajouter")
      */
-    public function add( ): Response
+    public function add(Request $request): Response
     {
         $wish = new Wish();
-        $wish->setTitle("Test 3")
-             ->setDescription("blablalblablalb")
-             ->setAuthor("Pierre");
-        $this->wishRepository->add($wish,true);
-        return $this->render('wish/add.html.twig');
+        $wishForm = $this->createForm(WishType::class,$wish);
+        $wishForm->handleRequest($request);
+
+
+        if($wishForm->isSubmitted() && $wishForm->isValid()){
+
+            $this->wishRepository->add($wish,true);
+            $this->addFlash("success","Le wish a bien été ajouté");
+            return $this->redirectToRoute("app_wish_detail",["id"=>$wish->getId()]);
+        }
+
+        return $this->render('wish/add.html.twig',["form"=>$wishForm->createView()]);
     }
 
     /**
@@ -40,6 +49,40 @@ class WishController extends AbstractController
     public function detail(Wish $wish): Response
     {
         return $this->render('wish/detail.html.twig',compact("wish"));
+    }
+
+    /**
+     * @Route("/modifier/{id}", name="edit", requirements={"id"="\d+"})
+     */
+    public function edit(Wish $wish,Request $request): Response
+    {
+  
+        $wishForm = $this->createForm(WishType::class,$wish);
+        $wishForm->handleRequest($request);
+
+        if($wishForm->isSubmitted() && $wishForm->isValid()){
+
+            $this->wishRepository->update();
+            $this->addFlash("success","Le wish a bien été modifié");
+            return $this->redirectToRoute("app_wish_detail",["id"=>$wish->getId()]);
+        }
+
+        return $this->render('wish/update.html.twig',["form"=>$wishForm->createView()]);
+    }
+
+    /**
+     * @Route("/supprimer", name="delete")
+     */
+    public function delete(Request $request): Response
+    {
+        $id = $request->get("_id");
+        if($this->isCsrfTokenValid("supp-".$id,$request->get("_csrf_token"))){
+            $this->wishRepository->remove($this->wishRepository->find($id),true);
+            $this->addFlash("success","Le wish a bien été supprimé!");
+            return $this->redirectToRoute("app_wish_list");
+        }
+        $this->addFlash("danger","Erreur sur le CSRF Token!");
+        return $this->render('wish/detail.html.twig');
     }
 
     /**

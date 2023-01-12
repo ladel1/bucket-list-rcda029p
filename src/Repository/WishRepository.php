@@ -38,6 +38,14 @@ class WishRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function update(): void
+    {
+
+            $this->getEntityManager()->flush();
+  
+    }
+
+
 
 //    /**
 //     * @return Wish[] Returns an array of Wish objects
