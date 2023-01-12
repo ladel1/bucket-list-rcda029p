@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\WishRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=WishRepository::class)
@@ -22,6 +23,7 @@ class Wish
     private $id;
 
     /**
+     * @Assert\NotBlank(message="Le champs titre est obligatoire!")
      * @ORM\Column(type="string", length=250)
      */
     private $title;
@@ -32,6 +34,13 @@ class Wish
     private $description;
 
     /**
+     * @Assert\NotBlank(message="Le champs titre est obligatoire!")
+     * @Assert\Length(
+     * min="1",
+     * max="50",
+     * minMessage="Trop court!",
+     * maxMessage="Trop long!"
+     * )
      * @ORM\Column(type="string", length=50)
      */
     private $author;
@@ -49,6 +58,7 @@ class Wish
 
     public function __construct()
     {
+        
         $this->setDateCreated(new \DateTime());
         $this->setIsPublished(true);
     }
