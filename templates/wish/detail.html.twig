@@ -7,7 +7,9 @@
     {% include "helper/_flash.html.twig" %}
     <h2>{{wish.title}}</h2>
     <p>{{wish.description}}</p>
+    <p> <b> {{ wish.category.name }} </b> </p>
     <p>{{wish.dateCreated|date("d/m/Y h\\Hi ") }}</p>
     <p>{{wish.author}}</p>
+    
 </div>
 {% endblock %}

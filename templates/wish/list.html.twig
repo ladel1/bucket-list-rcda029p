@@ -16,6 +16,7 @@
                     <th>N°</th>
                     <th>Titre</th>
                     <th>Résumé</th>
+                    <th>Catégorie</th>
                     <th>Auteur</th>
                     <th>Actions</th>                
                 </tr>
@@ -26,6 +27,7 @@
                         <td>{{ item.id}}</td>
                         <td>{{ item.title }}</td>
                         <td>{{ item.description[0:20] }}...</td>
+                        <td>{{ item.category.name }}</td>
                         <td>{{ item.author }}</td>
                         <td>
                             <a href="{{ path('app_wish_detail',{id:item.id}) }}" class="btn btn-info"><i class="fa-solid fa-eye"></i></a>
