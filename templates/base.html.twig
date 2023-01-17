@@ -17,12 +17,27 @@
         "name":"app_wish_list",
         "label":"Liste wish"
     }
-    ,
-    {
-        "name":"app_wish_ajouter",
-        "label":"Ajouter un wish"
-    }    
-] %}
+     ] %}
+
+  {% set menuDisConnected = [ {
+      "name":"app_login",
+      "label":"Connexion"
+  },{
+      "name":"app_register",
+      "label":"Inscription"
+  }]  %}
+
+  {% set menuConnected = [ {
+    "name":"app_wish_ajouter",
+    "label":"Ajouter un wish"
+   },{
+    "name":"app_logout",
+    "label":"Déconnexion"
+   } ]  %}
+
+  
+  {% set menu = app.user? menu|merge(menuConnected):menu|merge(menuDisConnected) %}
+
 <!doctype html>
 <html lang="fr">
   <head>
@@ -49,13 +64,18 @@
                   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                   </button>
-                  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <div class="navbar-nav">
-                        {% for item in menu %}                        
-                            <a class="nav-link" aria-current="page" href="{{ path(item.name) }}">{{item.label}}</a>
-                        {% endfor %}
-
-                    </div>
+                  <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarNavAltMarkup">
+                      <div class="navbar-nav">
+                          {% for item in menu %}                        
+                              <a class="nav-link" aria-current="page" href="{{ path(item.name) }}">{{item.label}}</a>
+                          {% endfor %}
+  
+                      </div>
+                      
+                        <span>
+                          {{ app.user? "Bonjour "~app.user.username:"" }}
+                        </span>
+                           
                   </div>
                 </div>
               </nav>

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Wish;
 use App\Form\WishType;
 use App\Repository\WishRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,11 +25,13 @@ class WishController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_USER")
      * @Route("/ajouter", name="ajouter")
      */
     public function add(Request $request): Response
     {
         $wish = new Wish();
+        if($this->getUser()) $wish->setAuthor($this->getUser()->getUserIdentifier());        
         $wishForm = $this->createForm(WishType::class,$wish);
         $wishForm->handleRequest($request);
 
