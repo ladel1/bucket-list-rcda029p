@@ -38,7 +38,7 @@ class WishController extends AbstractController
 
 
         if($wishForm->isSubmitted() && $wishForm->isValid()){
-            $wish->setDescription( $censurator->purify2($wish->getDescription()) );
+            $wish->setDescription( $censurator->purify($wish->getDescription()) );
             $this->wishRepository->add($wish,true);
             $this->addFlash("success","Le wish a bien été ajouté");
             return $this->redirectToRoute("app_wish_detail",["id"=>$wish->getId()]);
